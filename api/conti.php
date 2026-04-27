@@ -87,6 +87,7 @@ try {
         echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
     }
 } catch (PDOException $e) {
+    error_log($e->getMessage());
     http_response_code(500);
-    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+    echo json_encode(['status' => 'error', 'message' => 'Si è verificato un errore interno. Riprova più tardi.']);
 }

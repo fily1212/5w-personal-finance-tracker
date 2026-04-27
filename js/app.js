@@ -105,7 +105,10 @@ async function handleContoSubmit(e) {
   const saldo  = parseFloat(document.getElementById('conto-saldo').value) || 0;
   const colore = document.getElementById('conto-colore').value;
 
-  if (!nome) { showAlert('Il nome del conto è obbligatorio'); return; }
+  if (!nome) {
+    showAlert('Il nome del conto è obbligatorio');
+    return;
+  }
 
   try {
     await apiFetch(API.conti, {
@@ -232,7 +235,12 @@ async function handleTransazioneSubmit(e) {
   const descrizione = document.getElementById('t-descrizione').value.trim();
 
   if (!contoId || !categoriaId || !importo || importo <= 0 || !data) {
-    showAlert('Compila tutti i campi obbligatori (conto, categoria, importo e data).');
+    const missing = [];
+    if (!contoId)                   { missing.push('conto'); }
+    if (!categoriaId)               { missing.push('categoria'); }
+    if (!importo || importo <= 0)   { missing.push('importo (deve essere > 0)'); }
+    if (!data)                      { missing.push('data'); }
+    showAlert('Campi obbligatori mancanti o non validi: ' + missing.join(', ') + '.');
     return;
   }
 
